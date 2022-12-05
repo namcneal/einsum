@@ -11,6 +11,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+//
 
 //! Methods to produce a `ContractionOrder`, specifying what order in which to perform pairwise contractions between tensors
 //! in order to perform the full contraction.
