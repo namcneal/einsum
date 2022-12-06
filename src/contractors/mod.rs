@@ -459,7 +459,7 @@ impl<A> EinsumPath<A> {
 }
 
 impl<A> EinsumPath<A> {
-    pub fn contract_operands(&self, operands: &[&dyn ArrayLike<A>]) -> ArrayD<A>
+    pub fn contract_operands(&self, operands: &[&ArrayD<A>]) -> ArrayD<A>
     where
         A: Clone + LinalgScalar,
     {

@@ -201,7 +201,7 @@ where
 /// Wrapper around [SizedContraction::contract_operands](struct.SizedContraction.html#method.contract_operands).
 pub fn einsum_sc<A: LinalgScalar>(
     sized_contraction: &SizedContraction,
-    operands: &[&ArrayLike<A>],
+    operands: &[&ArrayD<A>],
 ) -> ArrayD<A> {
     sized_contraction.contract_operands(operands)
 }
@@ -209,7 +209,7 @@ pub fn einsum_sc<A: LinalgScalar>(
 /// Create a [SizedContraction](struct.SizedContraction.html), optimize the contraction order, and compile the result into an [EinsumPath](struct.EinsumPath.html).
 pub fn einsum_path<A>(
     input_string: &str,
-    operands: &[&ArrayLike<A>],
+    operands: &[&ArrayD<A>],
     optimization_strategy: OptimizationMethod,
 ) -> Result<EinsumPath<A>, &'static str> {
     let contraction_order =
@@ -220,7 +220,7 @@ pub fn einsum_path<A>(
 /// Performs all steps of the process in one function: parse the string, compile the execution plan, and execute the contraction.
 pub fn einsum<A: LinalgScalar>(
     input_string: &str,
-    operands: &[&ArrayLike<A>],
+    operands: &[&ArrayD<A>],
 ) -> Result<ArrayD<A>, &'static str> {
     let sized_contraction = validate_and_size(input_string, operands)?;
     Ok(einsum_sc(&sized_contraction, operands))

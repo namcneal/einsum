@@ -293,7 +293,7 @@ impl SizedContraction {
     /// ```
     pub fn from_contraction_and_operands<A>(
         contraction: &Contraction,
-        operands: &[&ArrayLike<A>],
+        operands: &[&ArrayD<A>],
     ) -> Result<Self, &'static str> {
         let operand_shapes = get_operand_shapes(operands);
 
@@ -336,7 +336,7 @@ impl SizedContraction {
     /// ```
     pub fn new<A>(
         input_string: &str,
-        operands: &[&ArrayLike<A>],
+        operands: &[&ArrayD<A>],
     ) -> Result<Self, &'static str> {
         let operand_shapes = get_operand_shapes(operands);
 
@@ -356,7 +356,7 @@ impl SizedContraction {
     /// ```
     pub fn contract_operands<A: Clone + LinalgScalar>(
         &self,
-        operands: &[&ArrayLike<A>],
+        operands: &[&ArrayD<A>],
     ) -> ArrayD<A> {
         let cpc = EinsumPath::new(&self);
         cpc.contract_operands(operands)
@@ -426,7 +426,7 @@ pub fn validate(input_string: &str) -> Result<Contraction, &'static str> {
 }
 
 /// Returns a vector holding one `Vec<usize>` for each operand.
-fn get_operand_shapes<A>(operands: &[&ArrayLike<A>]) -> Vec<Vec<usize>> {
+fn get_operand_shapes<A>(operands: &[&ArrayD<A>]) -> Vec<Vec<usize>> {
     operands
         .iter()
         .map(|operand| Vec::from(operand.into_dyn_view().shape()))
@@ -436,7 +436,7 @@ fn get_operand_shapes<A>(operands: &[&ArrayLike<A>]) -> Vec<Vec<usize>> {
 /// Wrapper around [SizedContraction::new()](struct.SizedContraction.html#method.new).
 pub fn validate_and_size<A>(
     input_string: &str,
-    operands: &[&ArrayLike<A>],
+    operands: &[&ArrayD<A>],
 ) -> Result<SizedContraction, &'static str> {
     SizedContraction::new(input_string, operands)
 }
@@ -444,7 +444,7 @@ pub fn validate_and_size<A>(
 /// Create a [SizedContraction](struct.SizedContraction.html) and then optimize the order in which pairs of inputs will be contracted.
 pub fn validate_and_optimize_order<A>(
     input_string: &str,
-    operands: &[&ArrayLike<A>],
+    operands: &[&ArrayD<A>],
     optimization_strategy: OptimizationMethod,
 ) -> Result<ContractionOrder, &'static str> {
     let sc = validate_and_size(input_string, operands)?;
